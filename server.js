@@ -37,10 +37,9 @@ app.use((req, res, next) => {
   // current user to res.locals
   res.locals.alerts = req.flash()
   res.locals.currentUser = req.user
-
+  
   next()
 })
-
 
 app.get('/', (req, res) => {
   res.render('index');

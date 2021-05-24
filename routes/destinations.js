@@ -9,3 +9,10 @@ const methodOverride = require('method-override')
 router.use(methodOverride('_method'))
 
 // Routes
+router.get('/', (req, res) => {
+    res.render('destinations/index.ejs')
+})
+
+// Exports
+
+module.exports = router;
