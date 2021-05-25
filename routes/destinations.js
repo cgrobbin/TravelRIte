@@ -9,8 +9,28 @@ const methodOverride = require('method-override')
 router.use(methodOverride('_method'))
 
 // Routes
+
+// Destinations Index
 router.get('/', (req, res) => {
-    res.render('destinations/index.ejs')
+    db.destination.findAll()
+        .then((destinations) => {
+            const destArr = []
+            destinations.forEach((destination) => {
+                destArr.push(destination)
+            })
+            res.render('destinations/index.ejs', { destinations: destArr })
+        })
+})
+
+// Destination Show
+router.get('/:destid', (req, res) => {
+    db.destination.findOne({
+        where: {
+            id: req.params.destid
+        }
+    }).then((destination) => {
+        res.render('destinations/show.ejs', { destination: destination })
+    })
 })
 
 // Exports
