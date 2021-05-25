@@ -1,1 +1,7 @@
 <h2>All destinations/dashboard</h2>
+
+<% destinations.forEach(function(destination) { %>
+    <div class="destination-card">
+        <h3><a href="/destinations/<%= destination.id %>"><%= destination.city %>, <%= destination.stateOrCountry %></a></h3>
+    </div>
+<% }) %>
