@@ -159,6 +159,57 @@ module.exports = {
       }
     ], {returning: true})
     console.log('bulk insert: ', bulkDestinations)
+
+    await queryInterface.bulkDelete('users', null, {
+      truncate: true,
+      cascade: true,
+      restartIdentity: true
+    })
+
+    const bulkUsers = await queryInterface.bulkInsert('users', [
+      {
+        firstName: 'Caroline',
+        lastName: 'Robbin',
+        email: 'cgrobbin@gmail.com',
+        password: bcrypt.hashSync('password123!', 12),
+        profilePic: 'https://i.imgur.com/atiWRRcm.jpg',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }, {
+        firstName: 'Alex',
+        lastName: 'A',
+        email: 'alex@test.com',
+        password: bcrypt.hashSync('password', 12),
+        profilePic: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }, {
+        firstName: 'Vickie',
+        lastName: 'R',
+        email: 'vickie@test.com',
+        password: bcrypt.hashSync('password', 12),
+        profilePic: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }, {
+        firstName: 'Stuart',
+        lastName: 'R',
+        email: 'stuart@test.com',
+        password: bcrypt.hashSync('password', 12),
+        profilePic: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }, {
+        firstName: 'Zach',
+        lastName: 'R',
+        email: 'zach@test.com',
+        password: bcrypt.hashSync('password', 12),
+        profilePic: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ], {returning: true})
+    console.log('bulk insert: ', bulkUsers)
   },
 
   down: async (queryInterface, Sequelize) => {
