@@ -5,6 +5,7 @@ const session = require('express-session');
 const flash = require("connect-flash")
 const passport = require('./config/ppConfig');
 const isLoggedIn = require('./middleware/isLoggedIn')
+const db = require('./models')
 
 const app = express();
 
@@ -50,7 +51,11 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/profile', isLoggedIn, (req, res) => {
-  res.render('profile');
+  db.user.findOne({
+    where: {id: req.user.id}
+  }).then((user) => {
+    res.render('profile', {user: user});
+  })
 });
 
 app.use('/auth', require('./routes/auth'));
