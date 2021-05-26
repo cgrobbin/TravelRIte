@@ -210,6 +210,52 @@ module.exports = {
       }
     ], {returning: true})
     console.log('bulk insert: ', bulkUsers)
+
+    await queryInterface.bulkDelete('reviews', null, {
+      truncate: true,
+      cascade: true,
+      restartIdentity: true
+    })
+
+    const bulkReviews = await queryInterface.bulkInsert('reviews', [
+      {
+        userId: bulkUsers[4].id,
+        destinationId: bulkDestinations[3].id,
+        content: "So uh, Budapest. Yeah",
+        rating: 1,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }, {
+        userId: bulkUsers[0].id,
+        destinationId: bulkDestinations[7].id,
+        content: "I mean, Big Ben, the eye, parliament. Pretty cool place",
+        rating: 3,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }, {
+        userId: bulkUsers[2].id,
+        destinationId: bulkDestinations[12].id,
+        content: "Such a lovely city. The people though, not so much",
+        rating: 5,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }, {
+        userId: bulkUsers[3].id,
+        destinationId: bulkDestinations[15].id,
+        content: "Great Barrier Reef! More like big pile of lies. The opera house was cool looking but I couldn't hear anything!",
+        rating: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }, {
+        userId: bulkUsers[1].id,
+        destinationId: bulkDestinations[18].id,
+        content: "Where are all the sausages???",
+        rating: 3,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ], {returning: true})
+    console.log('Bulk insert: ', bulkReviews)
   },
 
   down: async (queryInterface, Sequelize) => {
