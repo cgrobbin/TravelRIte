@@ -5,6 +5,7 @@ const router = express.Router()
 const db = require('../models')
 const isLoggedIn = require('../middleware/isLoggedIn')
 const methodOverride = require('method-override')
+const weather = require('weather-js')
 
 router.use(methodOverride('_method'))
 
@@ -34,7 +35,15 @@ router.get('/:destid', (req, res) => {
             where: {destinationId: req.params.destid},
             include: [db.user]
         }).then((reviews) => {
-            res.render('destinations/show.ejs', { destination: destination, reviews: reviews })
+            weather.find({search: `${destination.city}, ${destination.stateOrCounty}`, degreeType: 'F'}, function(err, result) {
+                if (err) console.log(err)
+                let results = result[0]
+                res.render('destinations/show.ejs', {
+                    destination: destination,
+                    reviews: reviews,
+                    results: results
+                })
+            })
         })
     })
 })
