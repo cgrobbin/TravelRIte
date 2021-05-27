@@ -27,9 +27,15 @@ router.get('/:destid', (req, res) => {
     db.destination.findOne({
         where: {
             id: req.params.destid
-        }
+        },
+        include: [db.review]
     }).then((destination) => {
-        res.render('destinations/show.ejs', { destination: destination })
+        db.review.findAll({
+            where: {destinationId: req.params.destid},
+            include: [db.user]
+        }).then((reviews) => {
+            res.render('destinations/show.ejs', { destination: destination, reviews: reviews })
+        })
     })
 })
 
