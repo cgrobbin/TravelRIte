@@ -23,6 +23,11 @@ router.get('/', (req, res) => {
         })
 })
 
+// New Destination
+router.get('/new', (req, res) => {
+    res.render('destinations/new.ejs')
+})
+
 // Destination Show
 router.get('/:destid', (req, res) => {
     db.destination.findOne({
