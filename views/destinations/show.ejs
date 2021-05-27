@@ -1,3 +1,17 @@
 <h2>Destination Show</h2>
 
 <h3><%= destination.city %>, <%= destination.stateOrCountry %></h3>
+
+<% if (reviews) { %>
+    <% reviews.forEach(function(review) { %>
+        <div class="card">
+            <div class="row">
+                <h5 class="left"><%= review.user.firstName %> <%= review.user.lastName %></h5>
+                <h4 class="right"><%= review.rating %></h4>
+                <p><%= review.content %></p>
+            </div>
+        </div>
+    <% }) %>
+<% } else { %>
+    <h3>No Reviews</h3>
+<% } %>
