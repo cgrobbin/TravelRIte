@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
 })
 
 // New Destination
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('destinations/new.ejs')
 })
 
@@ -50,6 +50,27 @@ router.get('/:destid', (req, res) => {
                 })
             })
         })
+    })
+})
+
+// Posts New Destination
+router.post('/new', isLoggedIn, (req, res) => {
+    db.destination.create({
+        city: req.body.city,
+        stateOrCountry: req.body.stateOrCountry,
+        image: req.body.image,
+        population: req.body.population
+    }).then(() => {
+        res.redirect('/destinations')
+    })
+})
+
+// Deletes Destination
+router.delete('/:destid', isLoggedIn, (req, res) => {
+    db.destination.destroy({
+        where: {id: req.params.destid}
+    }).then(() => {
+        res.redirect('/destinations')
     })
 })
 

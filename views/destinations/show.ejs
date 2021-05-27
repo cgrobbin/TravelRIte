@@ -51,3 +51,11 @@
 <% } else { %>
     <h3>No Reviews</h3>
 <% } %>
+
+<hr>
+
+<% if (currentUser && currentUser.id === 1) { %>
+    <form action="/destinations/<%= destination.id %>/?_method=DELETE" method="POST">
+        <input type="submit" value="Delete">
+    </form>
+<% } %>
