@@ -53,6 +53,15 @@ router.get('/:destid', (req, res) => {
     })
 })
 
+// New Review for Destination
+router.get('/:destid/addreview', isLoggedIn, (req, res) => {
+    db.destination.findOne({
+        where: {id: req.params.destid}
+    }).then((destination) => {
+        res.render('reviews/new.ejs', {destination: destination})
+    })
+})
+
 // Posts New Destination
 router.post('/new', isLoggedIn, (req, res) => {
     db.destination.create({
@@ -62,6 +71,18 @@ router.post('/new', isLoggedIn, (req, res) => {
         population: req.body.population
     }).then(() => {
         res.redirect('/destinations')
+    })
+})
+
+// Posts New Review
+router.post('/:destid/addreview', isLoggedIn, (req, res) => {
+    db.review.create({
+        destinationId: req.params.destid,
+        userId: req.user.id,
+        content: req.body.content,
+        rating: req.body.rating
+    }).then(() => {
+        res.redirect(`/destinations/${req.params.destid}`)
     })
 })
 
