@@ -38,6 +38,10 @@
 
 <h3>Reviews</h3>
 
+<% if (currentUser) { %>
+    <a href="/destinations/<%= destination.id %>/addreview" class="btn">Add Review</a>
+<% } %>
+
 <% if (reviews[0] !== undefined) { %>
     <% reviews.forEach(function(review) { %>
         <div class="card">
