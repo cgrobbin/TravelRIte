@@ -12,7 +12,8 @@ router.post('/signup', (req, res) => {
   db.user.findOrCreate({
     where: { email: req.body.email },
     defaults: {
-      name: req.body.name,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       password: req.body.password
     }
   }).then(([user, created]) => {
@@ -39,7 +40,7 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/profile',
   failureRedirect: '/auth/login',
   successFlash: 'You have logged in!',
   failureFlash: 'Invalid username and/or password.'

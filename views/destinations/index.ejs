@@ -1,1 +1,13 @@
-<h1>All destinations/dashboard</h1>
+<h2>Travel Index</h2>
+
+<hr>
+
+<% if (currentUser && currentUser.id == 1) { %>
+    <a href="/destinations/new" class="btn">Add New Travel Destination</a>
+<% } %>
+
+<% destinations.forEach(function(destination) { %>
+    <div class="destination-card">
+        <h3><a href="/destinations/<%= destination.id %>"><%= destination.city %>, <%= destination.stateOrCountry %></a></h3>
+    </div>
+<% }) %>

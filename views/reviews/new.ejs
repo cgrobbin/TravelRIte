@@ -1,0 +1,15 @@
+<h2>New Review Form</h2>
+
+<form action="/destinations/<%= destination.id %>/addreview" method="POST">
+    <label for="destination"><%= destination.city %>, <%= destination.stateOrCountry %></label>
+
+    <label for="user">By: <%= currentUser.firstName %> <%= currentUser.lastName %></label>
+
+    <label for="content">Review:</label>
+    <input id="content" type="text" name="content">
+
+    <label for="rating">Rating:</label>
+    <input id="rating" type="number" name="rating" min="1" max="5" value="1">
+
+    <input type="submit" value="Add Review">
+</form>

@@ -1,5 +1,5 @@
 'use strict';
-const bcrypt = require("bcrypt")
+const bcrypt = require('bcrypt')
 
 const {
   Model
@@ -13,16 +13,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.user.hasMany(models.review)
     }
 
     // validPassword
     validPassword(plainTextPassword) {
-      // validate the plaintextpassword against the hash in the DB 
-      // and return a boolean
-      return bcrypt.compareSync(plainTextPassword, this.password) 
+      // validate the plaintextpassword against the hash in the DB and return a boolean
+      return bcrypt.compareSync(plainTextPassword, this.password)
     }
 
-    // toJSON
+    // to JSON
     toJSON() {
       let userData = this.get()
       delete userData.password
@@ -30,20 +30,29 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   user.init({
-    email: {
-      type: DataTypes.STRING,
-      validate: {
-        isEmail: {
-          msg: 'Invalid email address.'
-        }
-      }
-    },
-    name: {
+    firstName: {
       type: DataTypes.STRING,
       validate: {
         len: {
           args: [1, 99],
-          msg: 'Name must be between 1 and 99 characters'
+          msg: 'Must be between 1 and 99 characters'
+        }
+      }
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      validate: {
+        len: {
+          args: [1, 99],
+          msg: 'Must be between 1 and 99 characters'
+        }
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: {
+          msg: 'Invalid email address'
         }
       }
     },
@@ -55,13 +64,14 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Password must be between 8 and 99 characters'
         }
       }
-    }
+    },
+    profilePic: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'user',
   });
 
-  // Hooks - moments in time where we can trigger specific functionality
+  // Hooks = moments in time where we can trigger specific functionality
   user.beforeCreate((pendingUser, options) => {
     // check that a pending user and their pw exists
     if (pendingUser && pendingUser.password) {
@@ -71,6 +81,5 @@ module.exports = (sequelize, DataTypes) => {
       pendingUser.password = hash;
     }
   });
-
   return user;
 };

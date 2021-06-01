@@ -1,0 +1,73 @@
+<h2><%= destination.city %>, <%= destination.stateOrCountry %></h2>
+<img src="<%= destination.image %>" alt="<%= destination.city %>-pic">
+<h4>Population: <%= destination.population %></h4>
+
+<hr>
+
+<h3>Weather</h3>
+
+<h4>Current</h4>
+    <ul>
+        <li>Temperature: <%= results.current.temperature %> F</li>
+        <li>Visibility: <%= results.current.skytext %></li>
+        <li>Feels Like: <%= results.current.feelslike %> F</li>
+        <li>Wind: <%= results.current.winddisplay %></li>
+    </ul>
+
+<h4>3-Day Forecast</h4>
+    <h5><%= results.forecast[0].day %></h5>
+        <ul>
+            <li>Low: <%= results.forecast[0].low %> F</li>
+            <li>High: <%= results.forecast[0].high %> F</li>
+            <li>Visibility: <%= results.forecast[0].skytextday %></li>
+        </ul>
+    <h5><%= results.forecast[1].day %></h5>
+        <ul>
+            <li>Low: <%= results.forecast[1].low %> F</li>
+            <li>High: <%= results.forecast[1].high %> F</li>
+            <li>Visibility: <%= results.forecast[1].skytextday %></li>
+        </ul>
+    <h5><%= results.forecast[2].day %></h5>
+        <ul>
+            <li>Low: <%= results.forecast[2].low %> F</li>
+            <li>High: <%= results.forecast[2].high %> F</li>
+            <li>Visibility: <%= results.forecast[2].skytextday %></li>
+        </ul>
+
+<hr>
+
+<h3>Reviews</h3>
+
+<% if (currentUser) { %>
+    <a href="/destinations/<%= destination.id %>/addreview" class="btn">Add Review</a>
+<% } %>
+
+<hr>
+
+<% if (reviews[0] !== undefined) { %>
+    <% reviews.forEach(function(review) { %>
+        <div class="card">
+            <div class="row">
+                <% if (currentUser && currentUser.id == review.user.id) { %>
+                    <a href="/destinations/<%= destination.id %>/<%= review.id %>/edit">Edit</a>
+                    <form action="/destinations/<%= destination.id %>/<%= review.id %>/?_method=DELETE" method="POST">
+                        <input type="submit" value="Delete">
+                    </form>
+                <% } %>
+                <h5 class="left"><%= review.user.firstName %> <%= review.user.lastName %></h5>
+                <h4 class="right"><%= review.rating %></h4>
+                <p><%= review.content %></p>
+            </div>
+        </div>
+    <% }) %>
+<% } else { %>
+    <h3>No Reviews</h3>
+<% } %>
+
+<hr>
+
+<% if (currentUser && currentUser.id === 1) { %>
+    <form action="/destinations/<%= destination.id %>/?_method=DELETE" method="POST">
+        <input type="submit" value="Delete">
+    </form>
+<% } %>
