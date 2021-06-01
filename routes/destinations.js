@@ -62,6 +62,16 @@ router.get('/:destid/addreview', isLoggedIn, (req, res) => {
     })
 })
 
+// Edit Review for Destination
+router.get('/:destid/:revid/edit', isLoggedIn, (req, res) => {
+    db.review.findOne({
+        where: {id: req.params.revid},
+        include: [db.user, db.destination]
+    }).then((review) => {
+        res.render('reviews/edit.ejs', { review: review })
+    })
+})
+
 // Posts New Destination
 router.post('/new', isLoggedIn, (req, res) => {
     db.destination.create({
@@ -81,6 +91,27 @@ router.post('/:destid/addreview', isLoggedIn, (req, res) => {
         userId: req.user.id,
         content: req.body.content,
         rating: req.body.rating
+    }).then(() => {
+        res.redirect(`/destinations/${req.params.destid}`)
+    })
+})
+
+// Edit Review
+router.put('/:destid/:revid', isLoggedIn, (req, res) => {
+    db.review.update({
+        content: req.body.content,
+        rating: req.body.rating
+    }, {
+        where: {id: req.params.revid}
+    }).then(() => {
+        res.redirect(`/destinations/${req.params.destid}`)
+    })
+})
+
+// Deletes Review
+router.delete('/:destid/:revid', isLoggedIn, (req, res) => {
+    db.review.destroy({
+        where: {id: req.params.revid}
     }).then(() => {
         res.redirect(`/destinations/${req.params.destid}`)
     })

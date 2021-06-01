@@ -23,15 +23,15 @@
         </ul>
     <h5><%= results.forecast[1].day %></h5>
         <ul>
-            <li>Low: <%= results.forecast[0].low %> F</li>
-            <li>High: <%= results.forecast[0].high %> F</li>
-            <li>Visibility: <%= results.forecast[0].skytextday %></li>
+            <li>Low: <%= results.forecast[1].low %> F</li>
+            <li>High: <%= results.forecast[1].high %> F</li>
+            <li>Visibility: <%= results.forecast[1].skytextday %></li>
         </ul>
     <h5><%= results.forecast[2].day %></h5>
         <ul>
-            <li>Low: <%= results.forecast[0].low %> F</li>
-            <li>High: <%= results.forecast[0].high %> F</li>
-            <li>Visibility: <%= results.forecast[0].skytextday %></li>
+            <li>Low: <%= results.forecast[2].low %> F</li>
+            <li>High: <%= results.forecast[2].high %> F</li>
+            <li>Visibility: <%= results.forecast[2].skytextday %></li>
         </ul>
 
 <hr>
@@ -42,10 +42,18 @@
     <a href="/destinations/<%= destination.id %>/addreview" class="btn">Add Review</a>
 <% } %>
 
+<hr>
+
 <% if (reviews[0] !== undefined) { %>
     <% reviews.forEach(function(review) { %>
         <div class="card">
             <div class="row">
+                <% if (currentUser && currentUser.id == review.user.id) { %>
+                    <a href="/destinations/<%= destination.id %>/<%= review.id %>/edit">Edit</a>
+                    <form action="/destinations/<%= destination.id %>/<%= review.id %>/?_method=DELETE" method="POST">
+                        <input type="submit" value="Delete">
+                    </form>
+                <% } %>
                 <h5 class="left"><%= review.user.firstName %> <%= review.user.lastName %></h5>
                 <h4 class="right"><%= review.rating %></h4>
                 <p><%= review.content %></p>
