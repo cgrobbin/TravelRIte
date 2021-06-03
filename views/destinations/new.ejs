@@ -1,0 +1,31 @@
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newDestination">Add Destination</button>
+<div class="modal fade" id="newDestination" tabindex="-1" aria-labelledby="newDestinationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="newDestinationLabel">New Destination</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/destinations/new" method="POST">
+                    <label for="city">City</label>
+                    <input id="city" type="text" name="city">
+                    
+                    <label for="state-or-country">State/Country</label>
+                    <input id="state-or-country" type="text" name="stateOrCountry">
+                
+                    <label for="image">Image URL</label>
+                    <input id="image" type="text" name="image">
+                
+                    <label for="population">Population</label>
+                    <input id="population" type="text" name="population">
+                    
+                    <input type="submit" value="Add">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-bs-dismiss="modal"></a>
+            </div>
+        </div>
+    </div>
+</div>

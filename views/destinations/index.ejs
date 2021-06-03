@@ -3,7 +3,7 @@
 <hr>
 
 <% if (currentUser && currentUser.id == 1) { %>
-    <a href="/destinations/new" class="btn">Add New Travel Destination</a>
+    <%- include("./new") %>
 <% } %>
 
 <div class="container">
