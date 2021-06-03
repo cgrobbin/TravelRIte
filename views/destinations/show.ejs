@@ -36,7 +36,7 @@
 <h3>Reviews</h3>
 
 <% if (currentUser) { %>
-    <a href="/destinations/<%= destination.id %>/addreview" class="btn">Add Review</a>
+    <%- include("../reviews/new") %>
 <% } %>
 
 <hr>
