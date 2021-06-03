@@ -15,24 +15,21 @@
     </ul>
 
 <h4>3-Day Forecast</h4>
-    <h5><%= results.forecast[0].day %></h5>
-        <ul>
-            <li>Low: <%= results.forecast[0].low %> F</li>
-            <li>High: <%= results.forecast[0].high %> F</li>
-            <li>Visibility: <%= results.forecast[0].skytextday %></li>
-        </ul>
-    <h5><%= results.forecast[1].day %></h5>
-        <ul>
-            <li>Low: <%= results.forecast[1].low %> F</li>
-            <li>High: <%= results.forecast[1].high %> F</li>
-            <li>Visibility: <%= results.forecast[1].skytextday %></li>
-        </ul>
-    <h5><%= results.forecast[2].day %></h5>
-        <ul>
-            <li>Low: <%= results.forecast[2].low %> F</li>
-            <li>High: <%= results.forecast[2].high %> F</li>
-            <li>Visibility: <%= results.forecast[2].skytextday %></li>
-        </ul>
+
+<div class="row">
+    <% for (let i = 0; i < 3; i++) { %>
+        <div class="col-4">
+            <div class="card">
+                <h5><%= results.forecast[i].day %></h5>
+                    <ul>
+                        <li>Low: <%= results.forecast[i].low %> F</li>
+                        <li>High: <%= results.forecast[1].high %> F</li>
+                        <li>Visibility: <%= results.forecast[1].skytextday %></li>
+                    </ul>
+            </div>
+        </div>    
+    <% } %>
+</div>
 
 <hr>
 
@@ -45,21 +42,25 @@
 <hr>
 
 <% if (reviews[0] !== undefined) { %>
-    <% reviews.forEach(function(review) { %>
-        <div class="card">
-            <div class="row">
-                <% if (currentUser && currentUser.id == review.user.id) { %>
-                    <a href="/destinations/<%= destination.id %>/<%= review.id %>/edit">Edit</a>
-                    <form action="/destinations/<%= destination.id %>/<%= review.id %>/?_method=DELETE" method="POST">
-                        <input type="submit" value="Delete">
-                    </form>
-                <% } %>
-                <h5 class="left"><%= review.user.firstName %> <%= review.user.lastName %></h5>
-                <h4 class="right"><%= review.rating %></h4>
-                <p><%= review.content %></p>
+    <div class="row">
+        <% reviews.forEach(function(review) { %>
+            <div class="col-6">
+                <div class="card">
+                    <% if (currentUser && currentUser.id == review.user.id) { %>
+                        <a href="/destinations/<%= destination.id %>/<%= review.id %>/edit">Edit</a>
+                        <form action="/destinations/<%= destination.id %>/<%= review.id %>/?_method=DELETE" method="POST">
+                            <input type="submit" value="Delete">
+                        </form>
+                    <% } %>
+                    <div class="row justify-content-around">
+                        <h5 class="col"><%= review.user.firstName %> <%= review.user.lastName %></h5>
+                        <h4 class="col"><%= review.rating %></h4>
+                    </div>
+                    <p><%= review.content %></p>
+                </div>
             </div>
-        </div>
-    <% }) %>
+        <% }) %>
+    </div>
 <% } else { %>
     <h3>No Reviews</h3>
 <% } %>
