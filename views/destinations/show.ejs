@@ -47,10 +47,59 @@
             <div class="col-6">
                 <div class="card">
                     <% if (currentUser && currentUser.id == review.user.id) { %>
-                        <a href="/destinations/<%= destination.id %>/<%= review.id %>/edit">Edit</a>
-                        <form action="/destinations/<%= destination.id %>/<%= review.id %>/?_method=DELETE" method="POST">
-                            <input type="submit" value="Delete">
-                        </form>
+                        <!-- Edit Modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editReview-<%= review.id %>">Edit</button>
+
+                        <div class="modal fade" id="editReview-<%= review.id %>" tabindex="-1" aria-labelledby="editReviewLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editReviewLabel">Edit Review</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/destinations/<%= destination.id %>/<%= review.id %>/?_method=PUT" method="POST">
+                                            <label for="destination"><%= destination.city %>, <%= destination.stateOrCountry %></label>
+                                        
+                                            <label for="user">By: <%= review.user.firstName %> <%= review.user.lastName %></label>
+                                        
+                                            <label for="content">Review:</label>
+                                            <input id="content" type="text" name="content" value="<%= review.content %>">
+                                        
+                                            <label for="rating">Rating:</label>
+                                            <input id="rating" type="number" name="rating" min="1" max="5" value="<%= review.rating %>">
+                                        
+                                            <input type="submit" value="Save Review">
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#" data-bs-dismiss="modal"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delete Modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal-delete-review-<%= review.id %>" data-bs-target="#deleteReview-<%= review.id %>">Delete</button>
+                        <div class="modal fade" id="deleteReview-<%= review.id %>" tabindex="-1" aria-labelledby="deleteReviewLabel">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteReviewLabel">Delete Review</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                        <form action="/destinations/<%= destination.id %>/<%= review.id %>/?_method=DELETE" method="POST">
+                                            <input class="btn btn-primary" type="submit" value="Delete">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <% } %>
                     <div class="row justify-content-around">
                         <h5 class="col"><%= review.user.firstName %> <%= review.user.lastName %></h5>
