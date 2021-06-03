@@ -6,6 +6,7 @@ const flash = require("connect-flash")
 const passport = require('./config/ppConfig');
 const isLoggedIn = require('./middleware/isLoggedIn')
 const db = require('./models')
+const { Op } = require('sequelize')
 
 const app = express();
 
@@ -57,6 +58,22 @@ app.get('/profile', isLoggedIn, (req, res) => {
     res.render('profile', {user: user});
   })
 });
+
+app.get('/search', (req, res) => {
+  db.destination.findAll({
+    where: {
+      city: {
+        [Op.iLike]: `%${req.query.search}%`
+      }
+    }
+  }).then((destinations) => {
+    const destArr = []
+    destinations.forEach((destination) => {
+      destArr.push(destination)
+    })
+    res.render('destinations/search.ejs', {destinations: destArr})
+  })
+})
 
 app.use('/auth', require('./routes/auth'));
 app.use('/destinations', require('./routes/destinations'));

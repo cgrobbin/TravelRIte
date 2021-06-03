@@ -1,0 +1,21 @@
+<h2>Search Page</h2>
+
+<% if (destinations[0] !== undefined) { %>
+    <div class="container">
+        <div class="row">
+            <% destinations.forEach(function(destination) { %>
+                <div class="col-6 col-md-3">
+                    <div class="card">
+                        <img class="card-img-top" src="<%= destination.image %>" alt="<%= destination.city %>">
+                        <div class="card-body">
+                            <h3 class="card-title"><%= destination.city %>, <%= destination.stateOrCountry %></h3>
+                            <a class="btn btn-primary" href="/destinations/<%= destination.id %>">More Details</a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+<% } else { %>
+    <h3>No results matching that search. Please Try Again</h3>
+<% } %>
