@@ -35,7 +35,7 @@ router.get('/:destid', (req, res) => {
             where: {destinationId: req.params.destid},
             include: [db.user]
         }).then((reviews) => {
-            weather.find({search: `${destination.city}, ${destination.stateOrCounty}`, degreeType: 'F'}, function(err, result) {
+            weather.find({search: `${destination.city}, ${destination.stateOrCountry}`, degreeType: 'F'}, function(err, result) {
                 if (err) console.log(err)
                 let results = result[0]
                 res.render('destinations/show.ejs', {
@@ -57,6 +57,22 @@ router.post('/new', isLoggedIn, (req, res) => {
         population: req.body.population
     }).then(() => {
         res.redirect('/destinations')
+    })
+})
+
+// Posts Destination to Profile
+router.post('/:destid/fave', isLoggedIn, (req,res) => {
+    db.favorites.findOrCreate({
+        where: { userId: req.user.id },
+        defaults: { destinationId: req.params.destid }
+    }).then(([fave, created]) => {
+        if (created) {
+            req.flash('success', 'Destination Added to Favorites')
+            res.redirect(`/destinations/${req.params.destid}`)
+        } else {
+            req.flash('error', 'Destination already in Favorites')
+            res.redirect(`/destinations/${req.params.destid}`)
+        }
     })
 })
 
