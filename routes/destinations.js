@@ -23,11 +23,6 @@ router.get('/', (req, res) => {
         })
 })
 
-// New Destination
-router.get('/new', isLoggedIn, (req, res) => {
-    res.render('destinations/new.ejs')
-})
-
 // Destination Show
 router.get('/:destid', (req, res) => {
     db.destination.findOne({
@@ -50,25 +45,6 @@ router.get('/:destid', (req, res) => {
                 })
             })
         })
-    })
-})
-
-// New Review for Destination
-router.get('/:destid/addreview', isLoggedIn, (req, res) => {
-    db.destination.findOne({
-        where: {id: req.params.destid}
-    }).then((destination) => {
-        res.render('reviews/new.ejs', {destination: destination})
-    })
-})
-
-// Edit Review for Destination
-router.get('/:destid/:revid/edit', isLoggedIn, (req, res) => {
-    db.review.findOne({
-        where: {id: req.params.revid},
-        include: [db.user, db.destination]
-    }).then((review) => {
-        res.render('reviews/edit.ejs', { review: review })
     })
 })
 
