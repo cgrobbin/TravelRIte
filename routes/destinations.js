@@ -100,6 +100,18 @@ router.put('/:destid/:revid', isLoggedIn, (req, res) => {
     })
 })
 
+// Removes Destination from Favorites
+router.delete('/:destid/fave', isLoggedIn, (req, res) => {
+    db.favorites.destroy({
+        where: {
+            destinationId: req.params.destid,
+            userId: req.user.id
+        }
+    }).then(() => {
+        res.redirect('/profile')
+    })
+})
+
 // Deletes Review
 router.delete('/:destid/:revid', isLoggedIn, (req, res) => {
     db.review.destroy({
