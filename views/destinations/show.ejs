@@ -54,6 +54,7 @@
                     <% if (currentUser && currentUser.id == review.user.id) { %>
                         <div class="row">
                             <div class="col-6">
+
                                 <!-- Edit Modal -->
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editReview-<%= review.id %>">Edit</button>
 
@@ -88,7 +89,10 @@
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="col-6">
+                                
                                 <!-- Delete Modal -->
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteReview-<%= review.id %>">Delete</button>
                                 
