@@ -20,9 +20,9 @@
                     <div class="card-body">
                         <h3 class="card-title"><%= destination.city %>, <%= destination.stateOrCountry %></h3>
                         <div class="row">
-                            <a class="btn btn-primary" href="/destinations/<%= destination.id %>">More Details</a>
+                            <a class="btn btn-primary col-6" href="/destinations/<%= destination.id %>">More Details</a>
                             <form action="/destinations/<%= destination.id %>/fave/?_method=DELETE" method="POST">
-                                <input type="submit" class="btn btn-primary" value="Remove">
+                                <input type="submit" class="btn btn-primary col-6" value="Remove">
                             </form>
                         </div>
                     </div>
