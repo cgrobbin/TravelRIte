@@ -23,11 +23,6 @@ router.get('/', (req, res) => {
         })
 })
 
-// New Destination
-router.get('/new', isLoggedIn, (req, res) => {
-    res.render('destinations/new.ejs')
-})
-
 // Destination Show
 router.get('/:destid', (req, res) => {
     db.destination.findOne({
@@ -40,7 +35,7 @@ router.get('/:destid', (req, res) => {
             where: {destinationId: req.params.destid},
             include: [db.user]
         }).then((reviews) => {
-            weather.find({search: `${destination.city}, ${destination.stateOrCounty}`, degreeType: 'F'}, function(err, result) {
+            weather.find({search: `${destination.city}, ${destination.stateOrCountry}`, degreeType: 'F'}, function(err, result) {
                 if (err) console.log(err)
                 let results = result[0]
                 res.render('destinations/show.ejs', {
@@ -53,25 +48,6 @@ router.get('/:destid', (req, res) => {
     })
 })
 
-// New Review for Destination
-router.get('/:destid/addreview', isLoggedIn, (req, res) => {
-    db.destination.findOne({
-        where: {id: req.params.destid}
-    }).then((destination) => {
-        res.render('reviews/new.ejs', {destination: destination})
-    })
-})
-
-// Edit Review for Destination
-router.get('/:destid/:revid/edit', isLoggedIn, (req, res) => {
-    db.review.findOne({
-        where: {id: req.params.revid},
-        include: [db.user, db.destination]
-    }).then((review) => {
-        res.render('reviews/edit.ejs', { review: review })
-    })
-})
-
 // Posts New Destination
 router.post('/new', isLoggedIn, (req, res) => {
     db.destination.create({
@@ -81,6 +57,22 @@ router.post('/new', isLoggedIn, (req, res) => {
         population: req.body.population
     }).then(() => {
         res.redirect('/destinations')
+    })
+})
+
+// Posts Destination to Profile
+router.post('/:destid/fave', isLoggedIn, (req,res) => {
+    db.favorites.findOrCreate({
+        where: { userId: req.user.id },
+        defaults: { destinationId: req.params.destid }
+    }).then(([fave, created]) => {
+        if (created) {
+            req.flash('success', 'Destination Added to Favorites')
+            res.redirect(`/destinations/${req.params.destid}`)
+        } else {
+            req.flash('error', 'Destination already in Favorites')
+            res.redirect(`/destinations/${req.params.destid}`)
+        }
     })
 })
 
@@ -105,6 +97,18 @@ router.put('/:destid/:revid', isLoggedIn, (req, res) => {
         where: {id: req.params.revid}
     }).then(() => {
         res.redirect(`/destinations/${req.params.destid}`)
+    })
+})
+
+// Removes Destination from Favorites
+router.delete('/:destid/fave', isLoggedIn, (req, res) => {
+    db.favorites.destroy({
+        where: {
+            destinationId: req.params.destid,
+            userId: req.user.id
+        }
+    }).then(() => {
+        res.redirect('/profile')
     })
 })
 

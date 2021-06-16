@@ -1,15 +1,30 @@
-<form action="/auth/signup" method="POST">
-  <label for="new-email">Email</label>
-  <input id="new-email" type="email" name="email" required>
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="signupModalLable">Signup</h4>
+      </div>
+      <div class="modal-body">
+        <form action="/auth/signup" method="POST">
+          <label class="form-label" for="new-email">Email</label>
+          <input class="form-control" id="new-email" type="email" name="email" required>
+        
+          <label class="form-label" for="new-first-name">First Name</label>
+          <input class="form-control" id="new-first-name" type="text" name="firstName">
+        
+          <label class="form-label" for="new-last-name">Last Name</label>
+          <input class="form-control" id="new-last-name" type="text" name="lastName">
+        
+          <label class="form-label" for="new-password">Password</label>
+          <input class="form-control" id="new-password" type="password" name="password" min="8">
+        
+          <input class="btn btn-primary" type="submit" value="Sign up">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" data-bs-dismiss="modal"></a>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <label for="new-first-name">First Name</label>
-  <input id="new-first-name" type="text" name="firstName">
-
-  <label for="new-last-name">Last Name</label>
-  <input id="new-last-name" type="text" name="lastName">
-
-  <label for="new-password">Password</label>
-  <input id="new-password" type="password" name="password" min="8">
-
-  <input type="submit" value="Sign up">
-</form>

@@ -1,9 +1,23 @@
-<form action="/auth/login" method="POST">
-  <label for="auth-email">Email</label>
-  <input id="auth-email" type="email" name="email">
-
-  <label for="auth-password">Password</label>
-  <input id="auth-password" type="password" name="password">
-
-  <input type="submit" value="Log In">
-</form>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="loginModalLable">Login</h4>
+      </div>
+      <div class="modal-body">
+        <form action="/auth/login" method="POST">
+          <label class="form-label" for="auth-email">Email</label>
+          <input class="form-control" id="auth-email" type="email" name="email">
+        
+          <label class="form-label" for="auth-password">Password</label>
+          <input class="form-control" id="auth-password" type="password" name="password">
+        
+          <input class="btn btn-primary" type="submit" value="Log In">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" data-bs-dismiss="modal"></a>
+      </div>
+    </div>
+  </div>
+</div>

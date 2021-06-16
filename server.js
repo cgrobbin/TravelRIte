@@ -53,7 +53,8 @@ app.get('/about', (req, res) => {
 
 app.get('/profile', isLoggedIn, (req, res) => {
   db.user.findOne({
-    where: {id: req.user.id}
+    where: {id: req.user.id},
+    include: [db.destination]
   }).then((user) => {
     res.render('profile', {user: user});
   })
