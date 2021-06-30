@@ -60,11 +60,13 @@ router.post('/new', isLoggedIn, (req, res) => {
     })
 })
 
-// Posts Destination to Profile
+// Posts Destination to Favorites
 router.post('/:destid/fave', isLoggedIn, (req,res) => {
     db.favorites.findOrCreate({
-        where: { userId: req.user.id },
-        defaults: { destinationId: req.params.destid }
+        where: {
+            userId: req.user.id,
+            destinationId: req.params.destid
+        }
     }).then(([fave, created]) => {
         if (created) {
             req.flash('success', 'Destination Added to Favorites')
