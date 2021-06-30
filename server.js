@@ -6,6 +6,7 @@ const flash = require("connect-flash")
 const passport = require('./config/ppConfig');
 const isLoggedIn = require('./middleware/isLoggedIn')
 const db = require('./models')
+const cors = require('cors')
 const { Op } = require('sequelize')
 
 const app = express();
@@ -16,6 +17,8 @@ app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
+
+app.use(cors())
 
 app.use(session({
   // a string used to generate a unique 
