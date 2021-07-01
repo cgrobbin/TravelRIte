@@ -5,6 +5,11 @@
     <img src="<%= user.profilePic %>" alt="profilePic">
 <% } %>
 
+<form action="/profile/pic" method="POST" enctype="multipart/form-data">
+    <input type="file" name="profile-pic-file">
+    <input type="submit" class="btn btn-primary" value="Upload">
+</form>
+
 <hr>
 
 <h4>My Favorite Places</h4>
