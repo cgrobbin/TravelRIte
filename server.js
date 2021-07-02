@@ -8,7 +8,7 @@ const isLoggedIn = require('./middleware/isLoggedIn')
 const db = require('./models')
 const cors = require('cors')
 const upload = require('./services/ImageUpload')
-const singleUpload = upload.single('image')
+const singleUpload = upload.single('file')
 const { Op } = require('sequelize')
 
 const app = express();
@@ -86,10 +86,10 @@ app.post('/profile/pic', isLoggedIn, (req, res) => {
   singleUpload(req, res, function(err) {
     if (err) {
       req.flash('error', 'Error in Image Upload')
+      console.log(err)
     }
-    console.log(req.profile-pic-file)
     db.user.update({
-      profilePic: req.profile-pic-file.location
+      profilePic: req.file.location
     }, {
       where: { id: req.user.id }
     }).then(() => {

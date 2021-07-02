@@ -25,10 +25,10 @@ const upload = multer({
         s3,
         bucket: "travelrite-project-2021",
         metadata: function(req, file, cb) {
-            cb(null, {fieldName: "TESTING_METADATA"})
+            cb(null, {fieldName: file.fieldname})
         },
         key: function(req, file, cb) {
-            cb(null, Date.now().toString())
+            cb(null, Date.now().toString() + file.originalname)
         }
     })
 })
