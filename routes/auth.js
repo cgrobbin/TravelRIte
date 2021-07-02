@@ -27,7 +27,7 @@ router.post('/signup', (req, res) => {
   }).catch(error => {
     // if an error occurs, console log the error message
     req.flash('error', error.message)
-    res.redirect('/auth/signup')
+    res.redirect('/')
   })
 })
 
