@@ -1,10 +1,10 @@
 <div class="row">
-    <img class="col-3" src="<%= destination.image %>" alt="<%= destination.city %>-pic">
-    <h2 class="col-3"><%= destination.city %>, <%= destination.stateOrCountry %></h2>
-    <h4 class="col-3">Population: <%= destination.population %></h4>
+    <img class="col-sm-3" src="<%= destination.image %>" alt="<%= destination.city %>-pic">
+    <h2 class="col-sm-3"><%= destination.city %>, <%= destination.stateOrCountry %></h2>
+    <h4 class="col-sm-3">Population: <%= destination.population %></h4>
     <% if (currentUser) { %>
         <form action="/destinations/<%= destination.id %>/fave" method="POST">
-            <input type="submit" class="btn btn-primary col-3" value="Add to Favorites">
+            <input type="submit" class="btn btn-primary col-sm-3" value="Add to Favorites">
         </form>
     <% } %>
 </div>
@@ -25,7 +25,7 @@
 
 <div class="row">
     <% for (let i = 0; i < 3; i++) { %>
-        <div class="col-4">
+        <div class="col-sm-4">
             <div class="card">
                 <h5><%= results.forecast[i].day %></h5>
                     <ul>
@@ -86,7 +86,7 @@
                                                     <label class="form-label" for="rating">Rating:</label>
                                                     <input class="form-control" id="rating" type="number" name="rating" min="1" max="5" value="<%= review.rating %>">
                                                 
-                                                    <input class="form-control" type="submit" value="Save Review">
+                                                    <input class="form-control btn btn-primary" type="submit" value="Save Review">
                                                 </form>
                                             </div>
                                             <div class="modal-footer">

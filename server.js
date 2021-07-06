@@ -6,6 +6,9 @@ const flash = require("connect-flash")
 const passport = require('./config/ppConfig');
 const isLoggedIn = require('./middleware/isLoggedIn')
 const db = require('./models')
+const cors = require('cors')
+const upload = require('./services/ImageUpload')
+const singleUpload = upload.single('file')
 const { Op } = require('sequelize')
 
 const app = express();
@@ -16,6 +19,8 @@ app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
+
+app.use(cors())
 
 app.use(session({
   // a string used to generate a unique 
@@ -51,15 +56,6 @@ app.get('/about', (req, res) => {
   res.render('about');
 });
 
-app.get('/profile', isLoggedIn, (req, res) => {
-  db.user.findOne({
-    where: {id: req.user.id},
-    include: [db.destination]
-  }).then((user) => {
-    res.render('profile', {user: user});
-  })
-});
-
 app.get('/search', (req, res) => {
   db.destination.findAll({
     where: {
@@ -73,6 +69,32 @@ app.get('/search', (req, res) => {
       destArr.push(destination)
     })
     res.render('destinations/search.ejs', {destinations: destArr})
+  })
+})
+
+app.get('/profile', isLoggedIn, (req, res) => {
+  db.user.findOne({
+    where: {id: req.user.id},
+    include: [db.destination]
+  }).then((user) => {
+    res.render('profile', {user: user});
+  })
+});
+
+// Posts new Profile Pic with AWS S3 Uploading
+app.post('/profile/pic', isLoggedIn, (req, res) => {
+  singleUpload(req, res, function(err) {
+    if (err) {
+      req.flash('error', 'Error in Image Upload')
+      console.log(err)
+    }
+    db.user.update({
+      profilePic: req.file.location
+    }, {
+      where: { id: req.user.id }
+    }).then(() => {
+      res.redirect('/profile')
+    })
   })
 })
 

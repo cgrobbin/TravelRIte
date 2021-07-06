@@ -22,18 +22,18 @@ router.post('/signup', (req, res) => {
     } else {
       // user already exists, so we redirect
       req.flash('error', 'Email already exists')
-      res.redirect('/auth/signup')
+      res.redirect('/')
     }
   }).catch(error => {
     // if an error occurs, console log the error message
     req.flash('error', error.message)
-    res.redirect('/auth/signup')
+    res.redirect('/')
   })
 })
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/profile',
-  failureRedirect: '/auth/login',
+  failureRedirect: '/',
   successFlash: 'You have logged in!',
   failureFlash: 'Invalid username and/or password.'
 }))
