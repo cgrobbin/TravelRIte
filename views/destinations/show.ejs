@@ -51,11 +51,11 @@
 <% if (reviews[0] !== undefined) { %>
     <div class="row">
         <% reviews.forEach(function(review) { %>
-            <div class="col-6">
+            <div class="col">
                 <div class="card">
                     <div class="row justify-content-around">
                         <h5 class="col"><%= review.user.firstName %> <%= review.user.lastName %></h5>
-                        <h4 class="col"><%= review.rating %></h4>
+                        <h4 class="col"><%= review.rating %> / 5</h4>
                     </div>
                     <p><%= review.content %></p>
                     <% if (currentUser && currentUser.id == review.user.id) { %>
