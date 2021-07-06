@@ -48,14 +48,17 @@ app.use((req, res, next) => {
   next()
 })
 
+// Home Page
 app.get('/', (req, res) => {
   res.render('index');
 });
 
+// About Page
 app.get('/about', (req, res) => {
   res.render('about');
 });
 
+// Search Results
 app.get('/search', (req, res) => {
   db.destination.findAll({
     where: {
@@ -72,6 +75,7 @@ app.get('/search', (req, res) => {
   })
 })
 
+// Profile Page
 app.get('/profile', isLoggedIn, (req, res) => {
   db.user.findOne({
     where: {id: req.user.id},
@@ -80,6 +84,11 @@ app.get('/profile', isLoggedIn, (req, res) => {
     res.render('profile', {user: user});
   })
 });
+
+// Gallery Page
+app.get('/gallery', (req, res) => {
+  res.render('gallery')
+})
 
 // Posts new Profile Pic with AWS S3 Uploading
 app.post('/profile/pic', isLoggedIn, (req, res) => {
@@ -98,6 +107,16 @@ app.post('/profile/pic', isLoggedIn, (req, res) => {
   })
 })
 
+// ADDITIONS
+// -----------------
+// Updates User Profile ------ app.put('/profile/edit')
+// Get Gallery -------- Connect to DB
+  // **********
+  // UPDATE AWS FOR FOLDERS
+    // Gallery
+    // Profile
+
+// Separates routes
 app.use('/auth', require('./routes/auth'));
 app.use('/destinations', require('./routes/destinations'));
 
