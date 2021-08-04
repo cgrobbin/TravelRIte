@@ -1,0 +1,29 @@
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfile">Edit</button>
+
+<div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileLabel">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/profile/edit/?_method=PUT" method="POST">
+                    <label class="form-label" for="firstName">First Name:</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" value="<%= user.firstName %>">
+                
+                    <label class="form-label" for="lastName">Last Name:</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" value="<%= user.lastName %>">
+                
+                    <label class="form-label" for="email">Email:</label>
+                    <input class="form-control" id="email" type="text" name="email" value="<%= user.email %>">
+                
+                    <input class="form-control btn btn-primary" type="submit" value="Save Profile">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-bs-dismiss="modal"></a>
+            </div>
+        </div>
+    </div>
+</div>

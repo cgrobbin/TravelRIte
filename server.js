@@ -1,3 +1,4 @@
+// IMPORTS
 require('dotenv').config();
 const express = require('express');
 const layouts = require('express-ejs-layouts');
@@ -13,6 +14,7 @@ const { Op } = require('sequelize')
 
 const app = express();
 
+// MIDDLEWARE
 app.set('view engine', 'ejs');
 
 app.use(require('morgan')('dev'));
@@ -48,14 +50,19 @@ app.use((req, res, next) => {
   next()
 })
 
+// ROUTES
+
+// Home Page
 app.get('/', (req, res) => {
   res.render('index');
 });
 
+// About Page
 app.get('/about', (req, res) => {
   res.render('about');
 });
 
+// Search Results
 app.get('/search', (req, res) => {
   db.destination.findAll({
     where: {
@@ -72,6 +79,7 @@ app.get('/search', (req, res) => {
   })
 })
 
+// Profile Page
 app.get('/profile', isLoggedIn, (req, res) => {
   db.user.findOne({
     where: {id: req.user.id},
@@ -80,6 +88,11 @@ app.get('/profile', isLoggedIn, (req, res) => {
     res.render('profile', {user: user});
   })
 });
+
+// Gallery Page
+app.get('/gallery', (req, res) => {
+  res.render('gallery')
+})
 
 // Posts new Profile Pic with AWS S3 Uploading
 app.post('/profile/pic', isLoggedIn, (req, res) => {
@@ -98,6 +111,42 @@ app.post('/profile/pic', isLoggedIn, (req, res) => {
   })
 })
 
+// Edit Profile
+app.put('/profile/edit', isLoggedIn, (req, res) => {
+  console.log('Started')
+  db.user.update({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email
+  }, {
+    where: { id: req.user.id }
+  }).then(() => {
+    console.log('Processed')
+    res.redirect('/profile')
+  }).catch((err) => {
+    console.log(err)
+  })
+})
+
+// Delete Profile
+app.delete('/profile/delete', isLoggedIn, (req, res) => {
+  db.user.destroy({
+    where: { id: req.user.id }
+  }).then(() => {
+    res.redirect('/')
+  })
+})
+
+// ADDITIONS
+// -----------------
+// Updates User Profile ------ app.put('/profile/edit')
+// Get Gallery -------- Connect to DB
+  // **********
+  // UPDATE AWS FOR FOLDERS
+    // Gallery
+    // Profile
+
+// Separates routes
 app.use('/auth', require('./routes/auth'));
 app.use('/destinations', require('./routes/destinations'));
 
