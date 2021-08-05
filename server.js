@@ -94,7 +94,46 @@ app.get('/profile', isLoggedIn, (req, res) => {
 
 // Gallery Page
 app.get('/gallery', (req, res) => {
-  res.render('gallery')
+  db.gallery.findAll({
+    include: [db.destination]
+  }).then((images) => {
+    db.destination.findAll()
+      .then((destinations) => {
+        const destArr = []
+        destinations.forEach(destination => {
+          destArr.push(destination)
+        })
+        res.render('gallery', { images: images, destinations: destArr })
+      })
+  })
+})
+
+// Posts new Image to Gallery with AWS S3 Uploading
+app.post('/gallery', isLoggedIn, (req, res) => {
+  singleUpload(req, res, function(err) {
+    if (err) {
+      req.flash('error', 'Error in Image Upload')
+    }
+    db.destination.findOne({
+      // Need to Access chosen option from dropdown menu
+      where: {city: req.body.city}
+    }).then((destination) => {
+      db.gallery.create({
+        where: {
+          destinationId: destination.id,
+          url: req.file.location
+        }
+      }).then(([image, created]) => {
+        if (created) {
+          req.flash('success', 'Image Uploaded')
+          res.redirect('/gallery')
+      } else {
+          req.flash('error', 'Sorry, something went wrong')
+          res.redirect('/gallery')
+      }
+      })
+    })
+  })
 })
 
 // Posts new Profile Pic with AWS S3 Uploading
@@ -142,7 +181,6 @@ app.put('/profile/edit', isLoggedIn, (req, res) => {
 
 // ADDITIONS
 // -----------------
-// Updates User Profile ------ app.put('/profile/edit')
 // Get Gallery -------- Connect to DB
   // **********
   // UPDATE AWS FOR FOLDERS
@@ -153,6 +191,7 @@ app.put('/profile/edit', isLoggedIn, (req, res) => {
 app.use('/auth', require('./routes/auth'));
 app.use('/destinations', require('./routes/destinations'));
 
+// Port
 var server = app.listen(process.env.PORT || 3000, ()=> console.log(`🎧You're listening to the smooth sounds of port ${process.env.PORT || 3000}🎧`));
 
 module.exports = server;
