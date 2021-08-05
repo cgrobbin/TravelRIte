@@ -11,6 +11,7 @@ const cors = require('cors')
 const upload = require('./services/ImageUpload')
 const singleUpload = upload.single('file')
 const { Op } = require('sequelize')
+const methodOverride = require('method-override')
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use(express.static(__dirname + '/public'));
 app.use(layouts);
 
 app.use(cors())
+
+app.use(methodOverride('_method'))
 
 app.use(session({
   // a string used to generate a unique 
@@ -129,13 +132,13 @@ app.put('/profile/edit', isLoggedIn, (req, res) => {
 })
 
 // Delete Profile
-app.delete('/profile/delete', isLoggedIn, (req, res) => {
-  db.user.destroy({
-    where: { id: req.user.id }
-  }).then(() => {
-    res.redirect('/')
-  })
-})
+// app.delete('/profile/delete', isLoggedIn, (req, res) => {
+//   db.user.destroy({
+//     where: { id: req.user.id }
+//   }).then(() => {
+//     res.redirect('/')
+//   })
+// })
 
 // ADDITIONS
 // -----------------
