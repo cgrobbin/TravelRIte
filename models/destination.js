@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.destination.hasMany(models.review)
       models.destination.belongsToMany(models.user, { through: 'favorites' })
+      models.destination.hasMany(models.gallery)
     }
   };
   destination.init({
