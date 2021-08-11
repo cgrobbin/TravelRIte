@@ -116,8 +116,10 @@ app.post('/gallery', isLoggedIn, (req, res) => {
     }
     db.destination.findOne({
       // Need to Access chosen option from dropdown menu
-      where: {city: req.body.city}
-    }).then((destination) => {
+      where: {city: req.body.citypicker}
+    })
+    .then((destination) => {
+      console.log(destination)
       db.gallery.create({
         where: {
           destinationId: destination.id,

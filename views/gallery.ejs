@@ -2,6 +2,20 @@
 
 <br>
 
+<% if (images[0] !== undefined) { %>
+    <div class="container">
+        <div class="row">
+            <% images.forEach(function(image) { %>
+                <div class="col-sm-4">
+                    <img src="<%= image.url %>" alt="<%= image.destination.city %>">
+                </div>
+            <% }) %>
+        </div>
+    </div>
+<% } else { %>
+    <h4>No Images Available</h4>
+<% } %>
+
 <% if (currentUser) { %>
     <h3>Upload Your Own Photos to Our Gallery</h3>
     <form action="/gallery" method="POST" enctype="multipart/form-data">
@@ -18,20 +32,6 @@
 
         <input type="submit" class="btn btn-primary" value="Upload">
     </form>
-<% } %>
-
-<% if (images[0] !== undefined) { %>
-    <div class="container">
-        <div class="row">
-            <% images.forEach(function(image) { %>
-                <div class="col-sm-4">
-                    <img src="<%= image.url %>" alt="<%= image.destination.city %>">
-                </div>
-            <% }) %>
-        </div>
-    </div>
-<% } else { %>
-    <h4>No Images Available</h4>
 <% } %>
 
 <!-- Displays all Images in DB model -->
