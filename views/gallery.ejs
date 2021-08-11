@@ -7,7 +7,12 @@
         <div class="row">
             <% images.forEach(function(image) { %>
                 <div class="col-sm-4">
-                    <img src="<%= image.url %>" alt="<%= image.destination.city %>">
+                    <div class="card">
+                        <img class="card-img-top" src="<%= image.url %>" alt="<%= image.place %>">
+                        <div class="card-body">
+                            <p class="card-title"><%= image.place %></p>
+                        </div>
+                    </div>
                 </div>
             <% }) %>
         </div>
@@ -21,21 +26,9 @@
     <form action="/gallery" method="POST" enctype="multipart/form-data">
         <input type="file" name="file">
 
-        <label for="cityList" class="form-label">Cities:</label>
-        <input class="form-control" list="cityListOptions" id="cityList">
-        <datalist id="cityListOptions">
-            <% destinations.forEach(function(destination) { %>
-                <!-- Need to access id from dropdown -->
-                <option name="city" value="<%= destination.city %>"></option>
-            <% }) %>
-        </datalist>
+        <label for="place" class="form-label">Place:</label>
+        <input type="text" class="form-control" id="place" name="place">
 
         <input type="submit" class="btn btn-primary" value="Upload">
     </form>
 <% } %>
-
-<!-- Displays all Images in DB model -->
-<!-- Possible Hover effect for location, else cards only w/ title (name of destination) -->
-<!-- if (currentUser) {
-    Upload image to s3 then save to DB
-} -->

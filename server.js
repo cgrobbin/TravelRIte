@@ -94,18 +94,17 @@ app.get('/profile', isLoggedIn, (req, res) => {
 
 // Gallery Page
 app.get('/gallery', (req, res) => {
-  db.gallery.findAll({
-    include: [db.destination]
-  }).then((images) => {
-    db.destination.findAll()
-      .then((destinations) => {
-        const destArr = []
-        destinations.forEach(destination => {
-          destArr.push(destination)
+  db.gallery.findAll()
+    .then((images) => {
+      db.destination.findAll()
+        .then((destinations) => {
+          const destArr = []
+          destinations.forEach(destination => {
+            destArr.push(destination)
+          })
+          res.render('gallery', { images: images, destinations: destArr })
         })
-        res.render('gallery', { images: images, destinations: destArr })
-      })
-  })
+    })
 })
 
 // Posts new Image to Gallery with AWS S3 Uploading
@@ -114,26 +113,12 @@ app.post('/gallery', isLoggedIn, (req, res) => {
     if (err) {
       req.flash('error', 'Error in Image Upload')
     }
-    db.destination.findOne({
-      // Need to Access chosen option from dropdown menu
-      where: {city: req.body.citypicker}
-    })
-    .then((destination) => {
-      console.log(destination)
-      db.gallery.create({
-        where: {
-          destinationId: destination.id,
-          url: req.file.location
-        }
-      }).then(([image, created]) => {
-        if (created) {
-          req.flash('success', 'Image Uploaded')
-          res.redirect('/gallery')
-      } else {
-          req.flash('error', 'Sorry, something went wrong')
-          res.redirect('/gallery')
-      }
-      })
+    console.log(req.file.location)
+    db.gallery.create({
+      place: req.body.place,
+      url: req.file.location
+    }).then(() => {
+      res.redirect('/gallery')
     })
   })
 })
@@ -180,14 +165,6 @@ app.put('/profile/edit', isLoggedIn, (req, res) => {
 //     res.redirect('/')
 //   })
 // })
-
-// ADDITIONS
-// -----------------
-// Get Gallery -------- Connect to DB
-  // **********
-  // UPDATE AWS FOR FOLDERS
-    // Gallery
-    // Profile
 
 // Separates routes
 app.use('/auth', require('./routes/auth'));
